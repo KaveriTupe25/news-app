@@ -1,0 +1,33 @@
+.news-card {
+    margin-bottom: 20px;
+    width: 400px;
+    border: 1px solid #ccc;
+    object-fit: cover;
+    box-shadow: 0 0 10px black;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.news-img {
+    height: 200px;
+    width: 400px;
+}
+
+.article-title {
+    font-size: 20px;
+}
+
+.article-info {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.btn {
+    text-decoration: none;
+    background-color: black;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}

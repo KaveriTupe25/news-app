@@ -1,40 +1,55 @@
-import { useEffect, useState } from 'react';
-import axios from 'axios';
-import './Home.css';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import "./Home.css"
+import NewsArticle from "../../Component/NewsArticle/NewsArticle";
 
-//1e845e600d5848c293edaa518e0fa128
-export default function Home() {
+function Home() {
     const [news, setNews] = useState([])
+    const [searchQuery, setSearchQuery] = useState("nagpur")
+    const loadnews = async() => {
+        try {
+            const response = await axios.get(`https://newsapi.org/v2/everything?q=${searchQuery}&from=2023-09-21&sortBy=publishedAt&apiKey=51e80ea160bb4f52aad3feb878de46fb`);
 
-    const loadNews = async() => {
-        const response = await axios.get("https://newsapi.org/v2/everything?q=apple&from=2023-10-20&to=2023-10-20&sortBy=popularity&apiKey=1e845e600d5848c293edaa518e0fa128")
-        console.log(response.data.articles)
+            setNews(response.data.articles)
+        } catch (error) {
+            console.log(error)
+        }
     }
-    useEffect(() => {
-        loadNews()
-    }, [])
 
+    useEffect(() => {
+        loadnews()
+    }, [])
+    useEffect(() => {
+        loadnews()
+    }, [searchQuery])
     return ( <
         div >
         <
-        h1 > Home < /h1>  {
-        news.map((newsArticle, index) => {
-
-            const { author, title, description, url, urlToImage, publishedAt, content } = newsArticle
-            return ( <
-                div >
-                <
-                img src = { urlToImage }
-                alt = ""
-                className = 'news-article-img' / >
-                <
-                /div>
-            )
-        })
-    }
-
-    <
-    /
-    div >
-)
+        h1 className = "head" > News App < /h1> <
+        input type = "text"
+        className = "search-input"
+        value = { searchQuery }
+        onChange = {
+            (e) => setSearchQuery(e.target.value)
+        }
+        />  <
+        div className = "container" > {
+            news.map((newsArticle, index) => {
+                const { author, title, description, url, urlToImage, publishedAt } = newsArticle
+                return ( <
+                    NewsArticle author = { author }
+                    title = { title }
+                    description = { description }
+                    url = { url }
+                    urlToImage = { urlToImage }
+                    publishedAt = { publishedAt }
+                    key = { index }
+                    />
+                )
+            })
+        } <
+        /div> < /
+        div >
+    )
 }
+export default Home
